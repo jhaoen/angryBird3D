@@ -33,7 +33,7 @@ set(CMAKE_INSTALL_PREFIX "${CMAKE_CURRENT_BINARY_DIR}/dist")
 # specify which version and components you need
 find_package(OGRE 14.3 REQUIRED COMPONENTS Bites RTShaderSystem)
 
-add_executable(OgreBasicApp BaseApplication.cpp BaseApplication.h TutorialApplication.cpp TutorialApplication.h)
+add_executable(OgreBasicApp BaseApplication.cpp BaseApplication.h TutorialApplication.cpp TutorialApplication.h PhysicSystem.h PhysicSystem.cpp)
 
 set_target_properties(OgreBasicApp PROPERTIES DEBUG_POSTFIX _d)
 

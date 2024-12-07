@@ -1,0 +1,9 @@
+# 忽略 VC/build 目錄下的所有內容
+VC/build/*
+
+# 但不忽略 VC/build/dist 文件夾
+!VC/build/dist/
+
+# 同時不忽略 VC/build/dist 文件夾中的所有內容
+!VC/build/dist/**
+

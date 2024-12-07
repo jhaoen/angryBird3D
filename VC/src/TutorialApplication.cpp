@@ -29,14 +29,9 @@ THE SOFTWARE
 #include "TutorialApplication.h"
 
 //-------------------------------------------------------------------------------------
-TutorialApplication::TutorialApplication()
+TutorialApplication::TutorialApplication():angryBirdNode(nullptr), angryBird(nullptr),pigNode(nullptr),
+pig(nullptr),slingShotNode(nullptr),slingShot(nullptr),physicSysyem(Physics())
 {
-    angryBirdNode = nullptr;
-    angryBird = nullptr;
-    pigNode = nullptr;
-    pig = nullptr;
-    slingShotNode = nullptr;
-    slingShot = nullptr;
     
 }
 
@@ -50,7 +45,9 @@ TutorialApplication::~TutorialApplication(void)
 //-------------------------------------------------------------------------------------
 void TutorialApplication::createScene(void)
 {   
-    Plane groundPlane = Plane(Vector3::UNIT_Y, 0);
+    physicSysyem.initSystem(mSceneMgr);
+   // 為了測試把草地先換成有Phyic的模式
+   /* Plane groundPlane = Plane(Vector3::UNIT_Y, 0);
     MeshManager::getSingleton().createPlane(
         "ground",
         ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
@@ -63,7 +60,7 @@ void TutorialApplication::createScene(void)
     Entity* ground = mSceneMgr->createEntity("GroundEntity", "ground");
     mSceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(ground);
     ground->setMaterialName("GrassFloor"); 
-    ground->setCastShadows(false);
+    ground->setCastShadows(false);*/
 
     // create angry bird scene node and set position
     angryBirdNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("angryBirdNode", Vector3(0,5,0));

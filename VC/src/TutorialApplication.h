@@ -30,6 +30,7 @@ THE SOFTWARE
 #define __TutorialApplication_h_
 
 #include "BaseApplication.h"
+#include "PhysicSystem.h"
 
 using namespace Ogre;
 using namespace OgreBites;
@@ -42,6 +43,7 @@ public:
 
 protected:
 	virtual void createScene(void);
+    Physics physicSysyem;
 
 private:
     SceneNode* angryBirdNode;
