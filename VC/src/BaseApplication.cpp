@@ -39,6 +39,7 @@ BaseApplication::BaseApplication() : ApplicationContext("OgreBasicApp"),
 	mCameraMan(nullptr),
 	mTrayMgr(nullptr),
 	mDetailsPanel(nullptr),
+	mShaderGen(nullptr),
 	mCursorWasVisible(false),
 	mShutDown(false)
 {

@@ -31,14 +31,9 @@ THE SOFTWARE
 #include <iostream>  
 
 //-------------------------------------------------------------------------------------
-TutorialApplication::TutorialApplication()
+TutorialApplication::TutorialApplication():angryBirdNode(nullptr), angryBird(nullptr),pigNode(nullptr),
+pig(nullptr),slingShotNode(nullptr),slingShot(nullptr),physicSysyem(Physics())
 {
-    angryBirdNode = nullptr;
-    angryBird = nullptr;
-    pigNode = nullptr;
-    pig = nullptr;
-    slingShotNode = nullptr;
-    slingShot = nullptr;
     
 }
 
@@ -54,8 +49,15 @@ TutorialApplication::~TutorialApplication(void)
 //-------------------------------------------------------------------------------------
 void TutorialApplication::createScene(void)
 {   
+<<<<<<< HEAD
     // create grass floor plane
     Plane groundPlane = Plane(Vector3::UNIT_Y, 0);
+=======
+    physicSysyem.initSystem(mSceneMgr);
+    physicSysyem.createScene();
+   // 為了測試把草地先換成有Phyic的模式
+   /* Plane groundPlane = Plane(Vector3::UNIT_Y, 0);
+>>>>>>> 4ef03416accd8af4dad97286ec6982d650b9f8f6
     MeshManager::getSingleton().createPlane(
         "ground",
         ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
@@ -68,7 +70,7 @@ void TutorialApplication::createScene(void)
     Entity* ground = mSceneMgr->createEntity("GroundEntity", "ground");
     mSceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(ground);
     ground->setMaterialName("GrassFloor"); 
-    ground->setCastShadows(false);
+    ground->setCastShadows(false);*/
 
     // create sky plane
     mSceneMgr->setSkyBox(true, "SkyBox");
@@ -112,6 +114,12 @@ void TutorialApplication::createScene(void)
     lightNode->attachObject(light);
     lightNode->setPosition(200, 600, 500);
 
+}
+
+bool TutorialApplication::frameRenderingQueued(const FrameEvent& evt)
+{
+    physicSysyem.stepSimulation(1.0f/600.0f); //suppose you have 60 frames per second
+    return BaseApplication::frameRenderingQueued(evt);
 }
 
 
