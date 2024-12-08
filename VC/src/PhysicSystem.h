@@ -23,6 +23,14 @@ public:
 	void initSystem(Ogre::SceneManager* SourceMgr);
 	void createScene();
 	void stepSimulation(btScalar step);
+	void addEntity( // add ogre entity to bullet physical world
+		Entity* entity, 
+		SceneNode* node,
+		const btVector3& shapeSize,
+		btScalar mass, 
+		const btVector3& startPosition, 
+		const btQuaternion& startRotation
+	);
 	Physics();
 	~Physics();
 };

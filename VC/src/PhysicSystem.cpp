@@ -3,11 +3,11 @@
 
 Physics::Physics()
 {
-	collectionConfig = new btDefaultCollisionConfiguration(); // ¥i¥H¬Ý§@¬O¸I¼²ÀË´ú¨t²Îªº®Ö¤ß°t¸m¡A©w¸q¦p¦ó³B²z¤£¦PÃþ«¬ªº¸I¼²¹ï¶H
-	dispatcher = new btCollisionDispatcher(collectionConfig); // ¨C·í¦³ª«²z¹ï¶H(ex:³n-­èÅé¡B­èÅé-­èÅé)»Ý­n¶i¦æ¸I¼²´ú¸Õ®É¡A¤À¬£¾¹·|½Õ¥Î¾A·íªº¸I¼²ÀË´úºtºâªk¡C
-	overlappingPairCache = new btDbvtBroadphase(); // ¼s¬Û¦ìºtºâªk¡A­t³d§Ö³t¿z¿ï¥i¯à·|¸I¼²ªº¹ï¶H¹ï¡C °ÊºAÃä¬ÉÅé¿n¾ð-dbvt(Dynamic Bounding Volume Tree) => ¼s¬Û¦ìºtºâªk¯à°÷ÅãµÛ´î¤Ö¶i¤J¯¶¬Û¦ìÀË´úªº¹ï¶H¼Æ¶q¡A´£°ª©Ê¯à
-	solver = new btSequentialImpulseConstraintSolver(); // ­t³d¸ÑªRª«²z¼ÒÀÀ¤¤ªº¬ù§ô¡]¨Ò¦p¸I¼²¡B¼¯À¿¡BÃö¸`¬ù§ôµ¥¡^¡C
-	dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, overlappingPairCache, solver, collectionConfig); // µ²¦X¤W­z©Ò¦³²Õ¥ó¡]¸I¼²°t¸m¡B¤À¬£¾¹¡B¼s¬Û¦ì¡B¬ù§ô¨D¸Ñ¾¹¡^¨Ó¹ê²{§¹¾ãªºª«²z¼ÒÀÀ
+	collectionConfig = new btDefaultCollisionConfiguration(); // ï¿½iï¿½Hï¿½Ý§@ï¿½Oï¿½Iï¿½ï¿½ï¿½Ë´ï¿½ï¿½tï¿½Îªï¿½ï¿½Ö¤ß°tï¿½mï¿½Aï¿½wï¿½qï¿½pï¿½ï¿½Bï¿½zï¿½ï¿½ï¿½Pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½H
+	dispatcher = new btCollisionDispatcher(collectionConfig); // ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½zï¿½ï¿½H(ex:ï¿½n-ï¿½ï¿½ï¿½ï¿½Bï¿½ï¿½ï¿½ï¿½-ï¿½ï¿½ï¿½ï¿½)ï¿½Ý­nï¿½iï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½Õ®É¡Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|ï¿½Õ¥Î¾Aï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½Ë´ï¿½ï¿½tï¿½ï¿½kï¿½C
+	overlappingPairCache = new btDbvtBroadphase(); // ï¿½sï¿½Û¦ï¿½tï¿½ï¿½kï¿½Aï¿½tï¿½dï¿½Ö³tï¿½zï¿½ï¿½iï¿½ï¿½|ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Hï¿½ï¿½C ï¿½ÊºAï¿½ï¿½ï¿½ï¿½ï¿½nï¿½ï¿½-dbvt(Dynamic Bounding Volume Tree) => ï¿½sï¿½Û¦ï¿½tï¿½ï¿½kï¿½ï¿½ï¿½ï¿½ï¿½Û´ï¿½Ö¶iï¿½Jï¿½ï¿½ï¿½Û¦ï¿½ï¿½Ë´ï¿½ï¿½ï¿½ï¿½ï¿½Hï¿½Æ¶qï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½Ê¯ï¿½
+	solver = new btSequentialImpulseConstraintSolver(); // ï¿½tï¿½dï¿½ÑªRï¿½ï¿½ï¿½zï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½]ï¿½Ò¦pï¿½Iï¿½ï¿½ï¿½Bï¿½ï¿½ï¿½ï¿½ï¿½Bï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½^ï¿½C
+	dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, overlappingPairCache, solver, collectionConfig); // ï¿½ï¿½ï¿½Xï¿½Wï¿½zï¿½Ò¦ï¿½ï¿½Õ¥ï¿½]ï¿½Iï¿½ï¿½ï¿½tï¿½mï¿½Bï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Bï¿½sï¿½Û¦ï¿½Bï¿½ï¿½ï¿½ï¿½Dï¿½Ñ¾ï¿½ï¿½^ï¿½Ó¹ï¿½{ï¿½ï¿½ï¿½ãªºï¿½ï¿½ï¿½zï¿½ï¿½ï¿½ï¿½
 }
 
 Physics::~Physics() {
@@ -30,27 +30,12 @@ void Physics::initSystem(SceneManager* SourceMgr)
 
 void Physics::createScene()
 {
-	Plane plane = Plane(Vector3::UNIT_Y, 0);
-	MeshPtr planePtr = MeshManager::getSingleton().createPlane(
-		"ground",
-		ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
-		plane,
-		1000, 1000, 1, 1,
-		true,
-		1, 10, 10,
-		Vector3::UNIT_Z);
-	Entity* entGround = mSceneMgr->createEntity("GroundEntity","ground");
-	SceneNode* groundNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("groundNode");
-	groundNode->attachObject(entGround);
-	entGround->setMaterialName("GrassFloor");
-	entGround->setCastShadows(false);
-
 	btTransform groundTransform;
-	groundTransform.setIdentity(); // ªì©l¤ÆÅÜ´«¬°³æ¦ì¯x°}¡Aªí¥Üª«ÅéµL¥ô¦ó±ÛÂà©Î¥­²¾¡C
-	groundTransform.setOrigin(btVector3(0, 0, 0)); // ±N¦aªOªº¤¤¤ß¦ì¸m³]¸m¬° (0, -50, 0)
+	groundTransform.setIdentity(); 
+	groundTransform.setOrigin(btVector3(0, 0, 0)); 
 
-	btScalar groundMass(0.); // ³]¬° 0 ªí¥Ü¦aªO¬OÀRºAª«Åé¡]¤£¥i²¾°Êªº )
-	btVector3 localGroundInertia(0, 0, 0); // ÀRºAª«Åé¤£»Ý­n­pºâºD©Ê¡A¦]¦¹ºD©Ê¦V¶q³]¬° (0, 0, 0)
+	btScalar groundMass(0.); 
+	btVector3 localGroundInertia(0, 0, 0); 
 
 	btCollisionShape* groundShape = new btBoxShape(btVector3(btScalar(750.), btScalar(1.), btScalar(750.)));
 	btDefaultMotionState* groundMotionState = new btDefaultMotionState(groundTransform);
@@ -63,37 +48,6 @@ void Physics::createScene()
 	//add the body to the dynamics world
 	dynamicsWorld->addRigidBody(groundBody);
 
-	MeshPtr birdMesh = MeshManager::getSingleton().load("angry_bird.mesh", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME).staticCast<Mesh>();
-	Entity* birdPhy = mSceneMgr->createEntity(birdMesh);
-	SceneNode* birdPhyNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
-	birdPhyNode->setScale(3, 3, 3);
-	//birdPhyNode->yaw(Degree(180));
-	birdPhyNode->attachObject(birdPhy);
-
-	//create the new shape, and tell the physics that is a Box
-	btCollisionShape* birdRigidShape = new btBoxShape(btVector3(1.0f, 1.0f, 1.0f));
-	collisionShapes.push_back(birdRigidShape);
-
-	btTransform startTransform;
-	startTransform.setIdentity();
-	startTransform.setRotation(btQuaternion(1.0f, 0.0f, 0.0f, 0));
-
-	btScalar mass = 0.1f;
-	btVector3 localInertia(0, 0, 0);
-
-	startTransform.setOrigin(btVector3(10,20,0));
-	birdRigidShape->calculateLocalInertia(mass, localInertia);
-
-	//actually contruvc the body and add it to the dynamics world
-	btDefaultMotionState* myMotionState = new btDefaultMotionState(startTransform);
-
-	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, birdRigidShape, localInertia);
-	btRigidBody* body = new btRigidBody(rbInfo);
-	body->setRestitution(1);
-	body->setUserPointer(birdPhyNode);
-
-	dynamicsWorld->addRigidBody(body);
-	pyhsicsAccessors["bird"] = body;
 }
 
 void Physics::stepSimulation(btScalar step)
@@ -119,4 +73,44 @@ void Physics::stepSimulation(btScalar step)
 			}
 		}
 	}
+}
+void Physics::addEntity(Entity* entity, SceneNode* node, const btVector3& shapeSize, btScalar mass, const btVector3& startPosition, const btQuaternion& startRotation)
+{
+	// Create a collision shape for the entity  
+	btCollisionShape* shape = new btBoxShape(shapeSize);
+	collisionShapes.push_back(shape);
+
+	// Set the initial transform for the rigid body  
+	btTransform startTransform;
+	startTransform.setIdentity();
+	startTransform.setOrigin(startPosition);
+	startTransform.setRotation(startRotation);
+
+	// Calculate the local inertia for the rigid body  
+	btVector3 localInertia(0, 0, 0);
+	if (mass != 0.0f) {
+		shape->calculateLocalInertia(mass, localInertia);
+	}
+
+	// Create the motion state for the rigid body  
+	btDefaultMotionState* motionState = new btDefaultMotionState(startTransform);
+
+	// Create the rigid body construction info  
+	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, motionState, shape, localInertia);
+
+	// Create the rigid body  
+	btRigidBody* body = new btRigidBody(rbInfo);
+
+	// Set restitution (bounciness) and friction (optional)  
+	body->setRestitution(0.5f); // Example: 50% bounciness  
+	body->setFriction(0.5f);    // Example: 50% friction  
+
+	// Associate the rigid body with the scene node  
+	body->setUserPointer(node);
+
+	// Add the rigid body to the dynamics world  
+	dynamicsWorld->addRigidBody(body);
+
+	// Store the rigid body in the map for future access  
+	pyhsicsAccessors[entity->getName()] = body;
 }

@@ -49,56 +49,70 @@ TutorialApplication::~TutorialApplication(void)
 //-------------------------------------------------------------------------------------
 void TutorialApplication::createScene(void)
 {   
-<<<<<<< HEAD
-    // create grass floor plane
-    Plane groundPlane = Plane(Vector3::UNIT_Y, 0);
-=======
+
     physicSysyem.initSystem(mSceneMgr);
     physicSysyem.createScene();
-   // 為了測試把草地先換成有Phyic的模式
-   /* Plane groundPlane = Plane(Vector3::UNIT_Y, 0);
->>>>>>> 4ef03416accd8af4dad97286ec6982d650b9f8f6
-    MeshManager::getSingleton().createPlane(
+
+   // create floor
+    Plane plane = Plane(Vector3::UNIT_Y, 0);
+    MeshPtr planePtr = MeshManager::getSingleton().createPlane(
         "ground",
         ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
-        groundPlane, 
+        plane,
         1000, 1000, 1, 1,
         true,
-        1, 10, 10, 
+        1, 10, 10,
         Vector3::UNIT_Z);
-
-    Entity* ground = mSceneMgr->createEntity("GroundEntity", "ground");
-    mSceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(ground);
-    ground->setMaterialName("GrassFloor"); 
-    ground->setCastShadows(false);*/
+    Entity* entGround = mSceneMgr->createEntity("GroundEntity", "ground");
+    SceneNode* groundNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("groundNode");
+    groundNode->attachObject(entGround);
+    entGround->setMaterialName("GrassFloor");
+    entGround->setCastShadows(false);
 
     // create sky plane
     mSceneMgr->setSkyBox(true, "SkyBox");
 
-    // create angry bird scene node and set position
+    // create angry bird scene node & set position & add to physical world
+    angryBird = mSceneMgr->createEntity("angryBird", "angry_bird.mesh");
     angryBirdNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("angryBirdNode", Vector3(0,5,0));
     angryBirdNode->setScale(3, 3, 3);
-    angryBirdNode->yaw(Degree(180));
 
-    angryBird = mSceneMgr->createEntity("angryBird", "angry_bird.mesh");
 
-    // create slingshot scene node and set position
+    btVector3 birdShapeSize(1.0f, 1.0f, 1.0f);
+    btScalar birdMass = 0.1f;
+    btVector3 birdStartPosition(0, 5, 0);
+    btQuaternion birdStartRotation(btVector3(0, 1, 0), -SIMD_PI);
+
+    physicSysyem.addEntity(angryBird, angryBirdNode, birdShapeSize, birdMass, birdStartPosition, birdStartRotation);
+
+    // create slingshot scene node & set position & add to physical world
+    slingShot = mSceneMgr->createEntity("slingShot", "slingshot.mesh");
     slingShotNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("slingShotNode", Vector3(0, 7, 0));
     slingShotNode->setScale(70, 70, 70);
     slingShotNode->rotate(Vector3::UNIT_X, Degree(180));
     slingShotNode->yaw(Degree(180));
 
-    slingShot = mSceneMgr->createEntity("slingShot", "slingshot.mesh");
+    btVector3 slingShotShapeSize(1.0f, 5.0f, 1.0f);
+    btScalar slingShotMass = 10.0f;
+    btVector3 slingShotStartPosition(0, 7, 0);
+    btQuaternion slingShotStartRotation(1.0f, 0.0f, 0.0f, 0);
 
-    // create pig scene node and set position
+    physicSysyem.addEntity(slingShot, slingShotNode, slingShotShapeSize, slingShotMass, slingShotStartPosition, slingShotStartRotation);
+
+    // create pig scene node & set position & add to physical world
+    pig = mSceneMgr->createEntity("pig", "pig.mesh");
     pigNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("pigNode", Vector3(0, 20, -100));
     pigNode->resetOrientation();
     pigNode->setScale(0.25f, 0.25f, 0.25f);
+    // pigNode->yaw(Degree(-90));
 
-    pigNode->yaw(Degree(90));
+    btVector3 pigShapeSize(1.0f, 1.0f, 1.0f);
+    btScalar pigMass = 5.f;
+    btVector3 pigStartPosition(0, 20, -100);
+    btQuaternion pigStartRotation(btVector3(0, 1, 0), SIMD_PI / 2);
 
-    pig = mSceneMgr->createEntity("pig", "pig.mesh");
-
+    physicSysyem.addEntity(pig, pigNode, pigShapeSize, pigMass, pigStartPosition, pigStartRotation);
+    
     // attach objects
     angryBirdNode->attachObject(angryBird);
     pigNode->attachObject(pig);
@@ -106,7 +120,6 @@ void TutorialApplication::createScene(void)
 
 
     mSceneMgr->setAmbientLight(ColourValue(0.5, 0.5, 0.5));
-
 
     // Create a Light and set its position
     Light* light = mSceneMgr->createLight("MainLight");

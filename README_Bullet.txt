@@ -13,14 +13,18 @@
 - 在 Visual Studio 中，右鍵單擊你的專案(OgreBasicApp)，選擇 屬性。
 - 在 配置屬性 -> C/C++ -> General -> Additional Include Directories 中，添加 Bullet src 的路徑
 
-6. 添加依賴的 .lib 文件：
+6. 在 Visual Studio 中設置庫路徑：
+打開 Visual Studio，右鍵點擊你的專案（例如 OgreBasicApp），選擇 屬性。
+在 配置屬性 > Linker > General > Additional Library Directories 中，添加 Bullet 的庫目錄 ： C:\Users\jhaoen\桌面\Computer_Graphic\angryBird3D\bullet3-3.25\build\lib\Release
+
+7. 添加依賴的 .lib 文件：
 在 配置屬性 -> Linker -> Input -> Additional Dependencies 中，添加以下庫文件：
 - LinearMath.lib  
 - BulletCollision.lib  
 - BulletDynamics.lib  
 
-7. 把 VS 的設置改成 static linking
+8. 把 VS 的設置改成 static linking
 - 在 Visual Studio 中，右鍵單擊你的專案，選擇 屬性。
 - 在 Configuration Properties -> C/C++ -> Code Generation -> Runtime Library 中：把 Multi-threaded (/MD) 改成 Multi-threaded (/MT)
 
-8. 最後 Build 整個專案，應該是可以執行
+9. 最後 Build 整個專案，應該是可以執行
