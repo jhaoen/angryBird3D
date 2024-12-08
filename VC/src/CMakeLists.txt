@@ -37,6 +37,7 @@ add_executable(OgreBasicApp BaseApplication.cpp BaseApplication.h TutorialApplic
 
 set_target_properties(OgreBasicApp PROPERTIES DEBUG_POSTFIX _d)
 
+
 target_link_libraries(OgreBasicApp OgreBites OgreRTShaderSystem ${OGRE_LIBRARIES})
 
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/dist/bin)

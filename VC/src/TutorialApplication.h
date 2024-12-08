@@ -43,6 +43,7 @@ public:
 
 protected:
 	virtual void createScene(void);
+    virtual bool frameRenderingQueued(const FrameEvent& evt);
     Physics physicSysyem;
 
 private:

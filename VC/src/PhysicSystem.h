@@ -22,6 +22,7 @@ class Physics
 public:
 	void initSystem(Ogre::SceneManager* SourceMgr);
 	void createScene();
+	void stepSimulation(btScalar step);
 	Physics();
 	~Physics();
 };

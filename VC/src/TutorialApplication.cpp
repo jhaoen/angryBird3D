@@ -46,6 +46,7 @@ TutorialApplication::~TutorialApplication(void)
 void TutorialApplication::createScene(void)
 {   
     physicSysyem.initSystem(mSceneMgr);
+    physicSysyem.createScene();
    // 為了測試把草地先換成有Phyic的模式
    /* Plane groundPlane = Plane(Vector3::UNIT_Y, 0);
     MeshManager::getSingleton().createPlane(
@@ -101,6 +102,12 @@ void TutorialApplication::createScene(void)
     lightNode->attachObject(light);
     lightNode->setPosition(200, 600, 500);
 
+}
+
+bool TutorialApplication::frameRenderingQueued(const FrameEvent& evt)
+{
+    physicSysyem.stepSimulation(1.0f/600.0f); //suppose you have 60 frames per second
+    return BaseApplication::frameRenderingQueued(evt);
 }
 
 
