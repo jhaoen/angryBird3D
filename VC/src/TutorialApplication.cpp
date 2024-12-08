@@ -27,6 +27,8 @@ THE SOFTWARE
 -------------------------------------------------------------------------*/
 
 #include "TutorialApplication.h"
+#include <btBulletDynamicsCommon.h>
+#include <iostream>  
 
 //-------------------------------------------------------------------------------------
 TutorialApplication::TutorialApplication()
@@ -47,9 +49,12 @@ TutorialApplication::~TutorialApplication(void)
 }
 
 
+
+
 //-------------------------------------------------------------------------------------
 void TutorialApplication::createScene(void)
 {   
+    // create grass floor plane
     Plane groundPlane = Plane(Vector3::UNIT_Y, 0);
     MeshManager::getSingleton().createPlane(
         "ground",
@@ -64,6 +69,9 @@ void TutorialApplication::createScene(void)
     mSceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(ground);
     ground->setMaterialName("GrassFloor"); 
     ground->setCastShadows(false);
+
+    // create sky plane
+    mSceneMgr->setSkyBox(true, "SkyBox");
 
     // create angry bird scene node and set position
     angryBirdNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("angryBirdNode", Vector3(0,5,0));
