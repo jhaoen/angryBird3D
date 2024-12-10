@@ -45,6 +45,7 @@ protected:
 	virtual void createScene(void);
     virtual bool frameRenderingQueued(const FrameEvent& evt);
     Physics physicSysyem;
+    virtual bool keyPressed(const KeyboardEvent& evt);
 
 private:
     SceneNode* angryBirdNode;

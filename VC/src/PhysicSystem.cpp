@@ -1,13 +1,14 @@
 #include "PhysicSystem.h"
 #include "OgreBullet.h" // For Use Bullet Physic Engine
+#include <iostream>
 
 Physics::Physics()
 {
-	collectionConfig = new btDefaultCollisionConfiguration(); // �i�H�ݧ@�O�I���˴��t�Ϊ��֤߰t�m�A�w�q�p��B�z���P�������I����H
-	dispatcher = new btCollisionDispatcher(collectionConfig); // �C������z��H(ex:�n-����B����-����)�ݭn�i��I�����ծɡA�������|�եξA����I���˴��t��k�C
-	overlappingPairCache = new btDbvtBroadphase(); // �s�ۦ�t��k�A�t�d�ֳt�z��i��|�I������H��C �ʺA�����n��-dbvt(Dynamic Bounding Volume Tree) => �s�ۦ�t��k�����۴�ֶi�J���ۦ��˴�����H�ƶq�A�����ʯ�
-	solver = new btSequentialImpulseConstraintSolver(); // �t�d�ѪR���z������������]�Ҧp�I���B�����B���`������^�C
-	dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, overlappingPairCache, solver, collectionConfig); // ���X�W�z�Ҧ��ե�]�I���t�m�B�������B�s�ۦ�B����D�Ѿ��^�ӹ�{���㪺���z����
+	collectionConfig = new btDefaultCollisionConfiguration(); // provide collision basic config include collision detect algorithm
+	dispatcher = new btCollisionDispatcher(collectionConfig); // use config to deal with diff type collision
+	overlappingPairCache = new btDbvtBroadphase(); // increase performence by use （Dynamic Bounding Volume Tree, DBVT） to detect potential collision
+	solver = new btSequentialImpulseConstraintSolver(); // to simullate collision react or Friction
+	dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, overlappingPairCache, solver, collectionConfig); // build the phyic world depands on those component
 }
 
 Physics::~Physics() {
@@ -32,7 +33,7 @@ void Physics::createScene()
 {
 	btTransform groundTransform;
 	groundTransform.setIdentity(); 
-	groundTransform.setOrigin(btVector3(0, 0, 0)); 
+	groundTransform.setOrigin(btVector3(0, 4, 0)); 
 
 	btScalar groundMass(0.); 
 	btVector3 localGroundInertia(0, 0, 0); 
@@ -112,5 +113,26 @@ void Physics::addEntity(Entity* entity, SceneNode* node, const btVector3& shapeS
 	dynamicsWorld->addRigidBody(body);
 
 	// Store the rigid body in the map for future access  
-	pyhsicsAccessors[entity->getName()] = body;
+	physicsAccessors[entity->getName()] = body;
+
+	/*for (const auto& T : physicsAccessors)
+		cout << T.first << '\n';*/
+}
+
+
+bool Physics::giveObjectVelocity(string objName, btVector3 velocity)
+{
+	if (physicsAccessors.find(objName) == physicsAccessors.end())
+		return false;
+	btRigidBody* body = physicsAccessors[objName];
+	/*btVector3 direction(0, 0.0, 1);
+	direction.normalize();
+	float speed = 20.0;*/
+	body->setLinearVelocity(velocity);
+	body->activate();
+	//float impulseStrength = 50.0;
+	//btVector3 impulse = direction * impulseStrength;
+	body->applyCentralImpulse(velocity);
+	body->activate();
+	return true;
 }

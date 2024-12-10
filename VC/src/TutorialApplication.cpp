@@ -116,7 +116,8 @@ void TutorialApplication::createScene(void)
     angryBirdNode->setPosition(getEntityCenter(angryBird));
     btVector3 birdShapeSize(getEntityWidth(angryBird), getEntityHeight(angryBird), getEntityDepth(angryBird));
     btScalar birdMass = 0.1f;
-    btVector3 birdStartPosition(0, getEntityHeight(angryBird) + getEntityHeight(woodbox), 0); // bird on woodbox
+    btScalar birdMass = 0.1f;
+    btVector3 birdStartPosition(0, 100, 0);
     btQuaternion birdStartRotation(btVector3(0, 1, 0), -SIMD_PI);
     physicSysyem.addEntity(angryBird, angryBirdNode, birdShapeSize, birdMass, birdStartPosition, birdStartRotation);
 
@@ -125,7 +126,7 @@ void TutorialApplication::createScene(void)
     slingShotNode->yaw(Degree(180));
     btVector3 slingShotShapeSize(getEntityWidth(slingShot), getEntityHeight(slingShot), getEntityDepth(slingShot));
     btScalar slingShotMass = 10.0f;
-    btVector3 slingShotStartPosition(0, getEntityHeight(slingShot), 0);
+    btVector3 slingShotStartPosition(40, 7, 0);
     btQuaternion slingShotStartRotation(1.0f, 0.0f, 0.0f, 0);
     physicSysyem.addEntity(slingShot, slingShotNode, slingShotShapeSize, slingShotMass, slingShotStartPosition, slingShotStartRotation);
 
@@ -167,6 +168,27 @@ bool TutorialApplication::frameRenderingQueued(const FrameEvent& evt)
     return BaseApplication::frameRenderingQueued(evt);
 }
 
+bool TutorialApplication::keyPressed(const KeyboardEvent& evt)
+{
+    if (mTrayMgr->isDialogVisible()) return true;
+
+    bool moveSucess = true;
+    switch (evt.keysym.sym)
+    {
+    case 'i':
+        moveSucess = physicSysyem.giveObjectVelocity("angryBird", btVector3(0, 0, -5));
+        if (!moveSucess)
+            cout << "�䤣��angryBird\n";
+        cout << "���槹��\n";
+        break;
+    default:
+        moveSucess = physicSysyem.giveObjectVelocity("angryBird", btVector3(0, 0, 0));
+        if (!moveSucess)
+            cout << "�䤣��angryBird\n";
+        break;
+    }
+    return BaseApplication::keyPressed(evt);
+}
 
 //-------------------------------------------------------------------------------------
 int main(int argc, char **argv)

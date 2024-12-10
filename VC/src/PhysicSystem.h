@@ -17,9 +17,9 @@ class Physics
 	btSequentialImpulseConstraintSolver* solver;
 	btDiscreteDynamicsWorld* dynamicsWorld;
 	vector<btCollisionShape*> collisionShapes;
-	map<string, btRigidBody*> pyhsicsAccessors;
 	SceneManager* mSceneMgr;
 public:
+	map<string, btRigidBody*> physicsAccessors;
 	void initSystem(Ogre::SceneManager* SourceMgr);
 	void createScene();
 	void stepSimulation(btScalar step);
@@ -31,6 +31,7 @@ public:
 		const btVector3& startPosition, 
 		const btQuaternion& startRotation
 	);
+	bool giveObjectVelocity(string objName, btVector3 velocity);
 	Physics();
 	~Physics();
 };
