@@ -53,6 +53,8 @@ private:
     Entity* pig;
     SceneNode* slingShotNode;
     Entity* slingShot;
+    SceneNode* woodBoxNode;
+    Entity* woodbox;
 };
 
 #endif // __TutorialApplication_h_
