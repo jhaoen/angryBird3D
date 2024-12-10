@@ -78,9 +78,9 @@ void TutorialApplication::createScene(void)
     angryBirdNode->setScale(3, 3, 3);
 
 
-    btVector3 birdShapeSize(1.0f, 1.0f, 1.0f);
+    btVector3 birdShapeSize(0.5f, 0.5f, 0.5f);
     btScalar birdMass = 0.1f;
-    btVector3 birdStartPosition(0, 5, 0);
+    btVector3 birdStartPosition(0, 100, 0);
     btQuaternion birdStartRotation(btVector3(0, 1, 0), -SIMD_PI);
 
     physicSysyem.addEntity(angryBird, angryBirdNode, birdShapeSize, birdMass, birdStartPosition, birdStartRotation);
@@ -92,9 +92,9 @@ void TutorialApplication::createScene(void)
     slingShotNode->rotate(Vector3::UNIT_X, Degree(180));
     slingShotNode->yaw(Degree(180));
 
-    btVector3 slingShotShapeSize(1.0f, 5.0f, 1.0f);
-    btScalar slingShotMass = 10.0f;
-    btVector3 slingShotStartPosition(0, 7, 0);
+    btVector3 slingShotShapeSize(0.5f, 5.0f, 0.5f);
+    btScalar slingShotMass = 0.0f;
+    btVector3 slingShotStartPosition(40, 7, 0);
     btQuaternion slingShotStartRotation(1.0f, 0.0f, 0.0f, 0);
 
     physicSysyem.addEntity(slingShot, slingShotNode, slingShotShapeSize, slingShotMass, slingShotStartPosition, slingShotStartRotation);
@@ -135,6 +135,27 @@ bool TutorialApplication::frameRenderingQueued(const FrameEvent& evt)
     return BaseApplication::frameRenderingQueued(evt);
 }
 
+bool TutorialApplication::keyPressed(const KeyboardEvent& evt)
+{
+    if (mTrayMgr->isDialogVisible()) return true;
+
+    bool moveSucess = true;
+    switch (evt.keysym.sym)
+    {
+    case 'i':
+        moveSucess = physicSysyem.giveObjectVelocity("angryBird", btVector3(0, 0, -5));
+        if (!moveSucess)
+            cout << "找不到angryBird\n";
+        cout << "執行完畢\n";
+        break;
+    default:
+        moveSucess = physicSysyem.giveObjectVelocity("angryBird", btVector3(0, 0, 0));
+        if (!moveSucess)
+            cout << "找不到angryBird\n";
+        break;
+    }
+    return BaseApplication::keyPressed(evt);
+}
 
 //-------------------------------------------------------------------------------------
 int main(int argc, char **argv)

@@ -1,0 +1,15 @@
+plaintext  
+material GrassFloor  
+{  
+    technique  
+    {  
+        pass  
+        {  
+            lighting off  
+            texture_unit  
+            {  
+                texture grass.jpg  
+            }  
+        }  
+    }  
+}  
