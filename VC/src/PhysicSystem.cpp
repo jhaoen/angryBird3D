@@ -33,12 +33,13 @@ void Physics::createScene()
 {
 	btTransform groundTransform;
 	groundTransform.setIdentity(); 
-	groundTransform.setOrigin(btVector3(0, 4, 0)); 
+	// beacause of our height of ground is set to 0.01， we need to set y-offset to -0.01 to align 
+	groundTransform.setOrigin(btVector3(0, -5, 0)); 
 
 	btScalar groundMass(0.); 
 	btVector3 localGroundInertia(0, 0, 0); 
 
-	btCollisionShape* groundShape = new btBoxShape(btVector3(btScalar(750.), btScalar(1.), btScalar(750.)));
+	btCollisionShape* groundShape = new btBoxShape(btVector3(btScalar(1000.), btScalar(11), btScalar(1000.)));
 	btDefaultMotionState* groundMotionState = new btDefaultMotionState(groundTransform);
 	collisionShapes.push_back(groundShape);
 
@@ -75,17 +76,17 @@ void Physics::stepSimulation(btScalar step)
 		}
 	}
 }
-void Physics::addEntity(Entity* entity, SceneNode* node, const btVector3& shapeSize, btScalar mass, const btVector3& startPosition, const btQuaternion& startRotation)
+void Physics::addEntity(Entity* entity, SceneNode* node, const btVector3& shapeSize, btScalar mass)
 {
+
 	// Create a collision shape for the entity  
 	btCollisionShape* shape = new btBoxShape(shapeSize);
 	collisionShapes.push_back(shape);
 
+	Vector3 node_pos = node->getPosition();
 	// Set the initial transform for the rigid body  
 	btTransform startTransform;
 	startTransform.setIdentity();
-	startTransform.setOrigin(startPosition);
-	startTransform.setRotation(startRotation);
 
 	// Calculate the local inertia for the rigid body  
 	btVector3 localInertia(0, 0, 0);
@@ -115,11 +116,22 @@ void Physics::addEntity(Entity* entity, SceneNode* node, const btVector3& shapeS
 	// Store the rigid body in the map for future access  
 	physicsAccessors[entity->getName()] = body;
 
-	/*for (const auto& T : physicsAccessors)
-		cout << T.first << '\n';*/
 }
 
+void Physics::syncOgre2Bullet(Entity* entity, SceneNode* node) {
 
+	btRigidBody* body = physicsAccessors[entity->getName()];
+	 
+	Vector3 position = node->getPosition();
+	Quaternion orientation = node->getOrientation();
+
+	btTransform transform;
+	transform.setOrigin(btVector3(position.x, position.y, position.z));
+	transform.setRotation(btQuaternion(orientation.x, orientation.y, orientation.z, orientation.w));
+
+	body->setWorldTransform(transform);
+	body->getMotionState()->setWorldTransform(transform);
+}
 bool Physics::giveObjectVelocity(string objName, btVector3 velocity)
 {
 	if (physicsAccessors.find(objName) == physicsAccessors.end())

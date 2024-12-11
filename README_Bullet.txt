@@ -11,7 +11,7 @@
 
 5. 設置專案的包含路徑：
 - 在 Visual Studio 中，右鍵單擊你的專案(OgreBasicApp)，選擇 屬性。
-- 在 配置屬性 -> C/C++ -> General -> Additional Include Directories 中，添加 Bullet src 的路徑
+- 在 配置屬性 -> C/C++ -> General -> Additional Include Directories 中，添加 Bullet src 的路徑 : C:\Users\jhaoen\桌面\Computer_Graphic\angryBird3D\bullet3-3.25\src
 
 6. 在 Visual Studio 中設置庫路徑：
 打開 Visual Studio，右鍵點擊你的專案（例如 OgreBasicApp），選擇 屬性。
@@ -19,9 +19,7 @@
 
 7. 添加依賴的 .lib 文件：
 在 配置屬性 -> Linker -> Input -> Additional Dependencies 中，添加以下庫文件：
-- LinearMath.lib  
-- BulletCollision.lib  
-- BulletDynamics.lib  
+- LinearMath.lib;BulletCollision.lib;BulletDynamics.lib  
 
 8. 把 VS 的設置改成 static linking
 - 在 Visual Studio 中，右鍵單擊你的專案，選擇 屬性。

@@ -27,10 +27,9 @@ public:
 		Entity* entity, 
 		SceneNode* node,
 		const btVector3& shapeSize,
-		btScalar mass, 
-		const btVector3& startPosition, 
-		const btQuaternion& startRotation
+		btScalar mass
 	);
+	void syncOgre2Bullet(Entity* entity, SceneNode* node);
 	bool giveObjectVelocity(string objName, btVector3 velocity);
 	Physics();
 	~Physics();

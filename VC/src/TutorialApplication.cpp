@@ -45,12 +45,12 @@ TutorialApplication::~TutorialApplication(void)
 
 Vector3 getEntityCenter(Entity* entity)
 {
-    AxisAlignedBox boundingBox = entity->getBoundingBox();
+    AxisAlignedBox boundingBox = entity->getWorldBoundingBox();
     return boundingBox.getCenter();
 }
 Real getEntityHeight(Entity* entity)
 {
-    AxisAlignedBox boundingBox = entity->getBoundingBox();
+    AxisAlignedBox boundingBox = entity->getWorldBoundingBox();
 
     Vector3 min = boundingBox.getMinimum(); // min point
     Vector3 max = boundingBox.getMaximum(); // max point
@@ -58,7 +58,7 @@ Real getEntityHeight(Entity* entity)
 }
 Real getEntityWidth(Entity* entity)
 {
-    AxisAlignedBox boundingBox = entity->getBoundingBox();
+    AxisAlignedBox boundingBox = entity->getWorldBoundingBox();
 
     Vector3 min = boundingBox.getMinimum(); // min point
     Vector3 max = boundingBox.getMaximum(); // max point
@@ -66,12 +66,33 @@ Real getEntityWidth(Entity* entity)
 }
 Real getEntityDepth(Entity* entity)
 {
-    AxisAlignedBox boundingBox = entity->getBoundingBox();
+    AxisAlignedBox boundingBox = entity->getWorldBoundingBox();
 
     Vector3 min = boundingBox.getMinimum(); // min point
     Vector3 max = boundingBox.getMaximum(); // max point
     return max.z - min.z;
 }
+
+void placeTop(Entity* entityA, Entity* entityB, SceneNode* nodeA, SceneNode* nodeB) {
+
+    /*
+    this function is to place entityB on entityA (in ogre and physical world)
+    */
+    Real heightA = getEntityHeight(entityA);
+    Real heightB = getEntityHeight(entityB);
+
+    Vector3 positionA = nodeA->getPosition();
+
+    Vector3 newPositionB = Vector3(
+        positionA.x,                      
+        positionA.y + heightA + heightB, 
+        positionA.z                
+    );
+
+    nodeB->setPosition(newPositionB);
+}
+
+
 //-------------------------------------------------------------------------------------
 void TutorialApplication::createScene(void)
 {   
@@ -85,16 +106,16 @@ void TutorialApplication::createScene(void)
         "ground",
         ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
         plane,
-        1000, 1000, 1, 1,
-        true,
-        1, 10, 10,
-        Vector3::UNIT_Z);
+        1500, 1500, 20, 20,
+        true, 1, 5, 5, 
+        Ogre::Vector3::UNIT_Z);
     Entity* entGround = mSceneMgr->createEntity("GroundEntity", "ground");
     SceneNode* groundNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("groundNode");
     groundNode->attachObject(entGround);
     entGround->setMaterialName("GrassFloor");
     entGround->setCastShadows(false);
 
+ 
     // create sky plane
     mSceneMgr->setSkyBox(true, "SkyBox");
 
@@ -110,41 +131,53 @@ void TutorialApplication::createScene(void)
     pigNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("pigNode");
     woodBoxNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("woodBoxNode");
 
-    // set attributes and layout
+    // set entities initial position
+    Vector3 birdInitPos(-30, getEntityHeight(angryBird), 0);
+    Vector3 slingshotInitPos(0, getEntityHeight(slingShot), 0);
+    Vector3 pigInitPos(-20, getEntityHeight(pig), -100);
+    Vector3 woodboxsInitPos(0, getEntityHeight(angryBird), -100);
 
-    //angryBirdNode->setScale(3, 3, 3);
-    angryBirdNode->setPosition(getEntityCenter(angryBird));
+    // set attributes
+    angryBirdNode->setScale(3, 3, 3);
+    angryBirdNode->setPosition(birdInitPos);
+    angryBirdNode->yaw(Degree(180));
     btVector3 birdShapeSize(getEntityWidth(angryBird), getEntityHeight(angryBird), getEntityDepth(angryBird));
-    btScalar birdMass = 0.1f;
-    btScalar birdMass = 0.1f;
-    btVector3 birdStartPosition(0, 100, 0);
-    btQuaternion birdStartRotation(btVector3(0, 1, 0), -SIMD_PI);
-    physicSysyem.addEntity(angryBird, angryBirdNode, birdShapeSize, birdMass, birdStartPosition, birdStartRotation);
+    btScalar birdMass = 5.f;
+    physicSysyem.addEntity(angryBird, angryBirdNode, birdShapeSize, birdMass);
+    physicSysyem.syncOgre2Bullet(angryBird, angryBirdNode);
 
-    //slingShotNode->setScale(70, 70, 70);
-    slingShotNode->rotate(Vector3::UNIT_X, Degree(180));
+    slingShotNode->setScale(100, 100, 100);
+    slingShotNode->setPosition(slingshotInitPos);
     slingShotNode->yaw(Degree(180));
+    slingShotNode->pitch(Degree(180));
     btVector3 slingShotShapeSize(getEntityWidth(slingShot), getEntityHeight(slingShot), getEntityDepth(slingShot));
-    btScalar slingShotMass = 10.0f;
-    btVector3 slingShotStartPosition(40, 7, 0);
-    btQuaternion slingShotStartRotation(1.0f, 0.0f, 0.0f, 0);
-    physicSysyem.addEntity(slingShot, slingShotNode, slingShotShapeSize, slingShotMass, slingShotStartPosition, slingShotStartRotation);
+    btScalar slingShotMass = 1.0f;
+    physicSysyem.addEntity(slingShot, slingShotNode, slingShotShapeSize, slingShotMass);
+    physicSysyem.syncOgre2Bullet(slingShot, slingShotNode);
 
-    pigNode->resetOrientation();
-    //pigNode->setScale(0.25f, 0.25f, 0.25f);
+    pigNode->setScale(0.4f, 0.4f, 0.4f);
+    pigNode->setPosition(pigInitPos);
     btVector3 pigShapeSize(getEntityWidth(pig), getEntityHeight(pig), getEntityDepth(pig));
-    btScalar pigMass = 5.f;
-    btVector3 pigStartPosition(0, getEntityHeight(pig), -100);
-    btQuaternion pigStartRotation(btVector3(0, 1, 0), SIMD_PI / 2);
-    physicSysyem.addEntity(pig, pigNode, pigShapeSize, pigMass, pigStartPosition, pigStartRotation);
+    btScalar pigMass = 1.f;
+    physicSysyem.addEntity(pig, pigNode, pigShapeSize, pigMass);
+    physicSysyem.syncOgre2Bullet(pig, pigNode);
     
-    woodBoxNode->setPosition(getEntityCenter(woodbox));
-    woodBoxNode->setScale(Vector3(0.1*0.1, 35*0.1, 35*0.1));
+    woodBoxNode->setPosition(woodboxsInitPos);
+    Real woobBoxScaleRatio = 0.3;
+    woodBoxNode->setScale(Vector3(0.1*woobBoxScaleRatio, 35* woobBoxScaleRatio, 35* woobBoxScaleRatio));
     btVector3 woodBoxShapeSize(getEntityWidth(woodbox), getEntityHeight(woodbox), getEntityDepth(woodbox));
     btScalar woodBoxMass = 15.0f;
-    btVector3 woodBoxStartPosition(0, getEntityHeight(woodbox), 0);
-    btQuaternion woodBoxStartRotation(1.0f, 0.0f, 0.0f, 0);
-    physicSysyem.addEntity(woodbox, woodBoxNode, woodBoxShapeSize, woodBoxMass, woodBoxStartPosition, woodBoxStartRotation);
+    physicSysyem.addEntity(woodbox, woodBoxNode, woodBoxShapeSize, woodBoxMass);
+    physicSysyem.syncOgre2Bullet(woodbox, woodBoxNode);
+
+    placeTop(woodbox, pig, woodBoxNode, pigNode);
+    physicSysyem.syncOgre2Bullet(pig, pigNode);
+    physicSysyem.syncOgre2Bullet(woodbox, woodBoxNode);
+    cout << "=====================================" << endl;
+    cout << "place pig on woodbox" << endl;
+    cout << "woodbox Position" << woodBoxNode->getPosition() << endl;
+    cout << "Pig Position" << pigNode->getPosition() << endl;
+    cout << "=====================================" << endl;
 
     // attach objects
     angryBirdNode->attachObject(angryBird);
@@ -178,13 +211,13 @@ bool TutorialApplication::keyPressed(const KeyboardEvent& evt)
     case 'i':
         moveSucess = physicSysyem.giveObjectVelocity("angryBird", btVector3(0, 0, -5));
         if (!moveSucess)
-            cout << "�䤣��angryBird\n";
-        cout << "���槹��\n";
+            cout << "angryBird not found\n";
+        cout << "execute successfully!!!\n";
         break;
     default:
         moveSucess = physicSysyem.giveObjectVelocity("angryBird", btVector3(0, 0, 0));
         if (!moveSucess)
-            cout << "�䤣��angryBird\n";
+            cout << "angryBird not found\n";
         break;
     }
     return BaseApplication::keyPressed(evt);

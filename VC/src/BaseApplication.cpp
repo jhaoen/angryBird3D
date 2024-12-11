@@ -94,7 +94,7 @@ void BaseApplication::createCamera(void)
 	mCameraNode->attachObject(mCamera);
 
 
-	mCameraNode->setPosition(20, 30, 100);
+	mCameraNode->setPosition(0, 20, 100);
 	mCameraNode->lookAt(Vector3(0, 0, -100), Node::TS_WORLD);
 	mCamera->setNearClipDistance(5);
 
